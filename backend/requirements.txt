@@ -1,0 +1,25 @@
+# Web framework
+fastapi==0.115.12
+uvicorn==0.34.2
+
+# Validation
+pydantic==2.11.3
+
+# Geospatial & Remote Sensing
+rasterio==1.5.0
+shapely==2.1.1
+numpy==2.2.6
+pyproj==3.7.1
+
+# Raster rendering
+Pillow==11.2.1
+
+# Configuration
+python-dotenv==1.1.0
+
+# External API client
+requests==2.34.2
+
+# Testing
+pytest==8.4.0
+httpx==0.28.1

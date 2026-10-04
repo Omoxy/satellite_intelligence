@@ -1,0 +1,100 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nairobi",
+        "description": "Capital city. Diverse urban-rural land cover including Nairobi National Park, dense built-up areas, and peri-urban agriculture."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.65, -1.40],
+            [36.95, -1.40],
+            [36.95, -1.15],
+            [36.65, -1.15],
+            [36.65, -1.40]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nakuru",
+        "description": "Rift Valley city featuring Lake Nakuru (alkaline lake with flamingo habitat), surrounding agricultural land, and Menengai Crater."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.00, -0.40],
+            [36.20, -0.40],
+            [36.20, -0.22],
+            [36.00, -0.22],
+            [36.00, -0.40]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Murang'a",
+        "description": "Central Kenya highlands. Tea and coffee plantations, dense montane vegetation transitioning to mixed agriculture at lower elevations."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.90, -0.80],
+            [37.15, -0.80],
+            [37.15, -0.60],
+            [36.90, -0.60],
+            [36.90, -0.80]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Siaya",
+        "description": "Western Kenya near Lake Victoria. Flat terrain dominated by smallholder agriculture, wetlands, and scattered tree cover."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [34.10, -0.15],
+            [34.40, -0.15],
+            [34.40, 0.10],
+            [34.10, 0.10],
+            [34.10, -0.15]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Elgeyo-Marakwet",
+        "description": "Western Kenya Rift escarpment. Dramatic elevation gradient from Kerio Valley floor (900m) to Cherangani Hills (3000m+). Mixed forest, dryland, and irrigated agriculture."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [35.40, 0.60],
+            [35.70, 0.60],
+            [35.70, 0.85],
+            [35.40, 0.85],
+            [35.40, 0.60]
+          ]
+        ]
+      }
+    }
+  ]
+}
