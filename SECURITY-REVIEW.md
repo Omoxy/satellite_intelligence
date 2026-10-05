@@ -1,7 +1,7 @@
 # Security review
 
-**Review date:** 2026-10-05  
-**Scope:** Current uncommitted changes in this repository, including tracked diffs, untracked files, and relevant ignore rules.  
+**Review date:** 2026-10-05
+**Scope:** Current uncommitted changes in this repository, including tracked diffs, untracked files, and relevant ignore rules.
 **Overall verdict:** FAIL
 
 This review was read-only. No application or configuration changes were made as part of the review. Findings describe the reviewed working tree at the time of review.
@@ -10,7 +10,7 @@ This review was read-only. No application or configuration changes were made as 
 
 ### HIGH — Anonymous proxy requests can use the backend access key
 
-**Location:** `frontend/netlify/functions/backend-proxy.mjs:53-55`  
+**Location:** `frontend/netlify/functions/backend-proxy.mjs:53-55`
 **Confidence:** 10/10
 
 The public `/api/*` rewrite in `netlify.toml` sends requests through the Netlify function. The function injects the server-side `API_ACCESS_KEY` for protected write routes without authenticating the caller. The backend accepts that key, so an anonymous internet caller can reach write operations such as creating AOIs or analyses and deleting custom AOIs. The shared key proves that the proxy has the key; it does not establish the identity or permissions of the caller.
@@ -19,7 +19,7 @@ The public `/api/*` rewrite in `netlify.toml` sends requests through the Netlify
 
 ### LOW — Local deployment state is not ignored
 
-**Location:** `.gitignore:67-68`  
+**Location:** `.gitignore:67-68`
 **Confidence:** 9/10
 
 The ignore rules cover environment files, credential/key patterns, build outputs, caches, and logs, but do not cover local Netlify and Vercel state directories. No such deployment-state directories were present among the reviewed changes; this is a preventive coverage gap, not evidence of a leaked credential.
