@@ -1,6 +1,7 @@
 import { AOI, AnalysisRun, LocationInspection } from '../types';
 
-const API_BASE = '/api';
+const API_URL = (import.meta.env.VITE_API_URL ?? '').trim().replace(/\/+$/, '');
+const API_BASE = API_URL ? `${API_URL}/api` : '/api';
 
 export class ApiError extends Error {
   status: number;
@@ -36,7 +37,7 @@ async function request<T>(endpoint: string, options?: RequestInit, apiBase = API
 }
 
 export const api = {
-  getHealth: () => request<{ status: string; database: string; data_mode: string }>('/health', undefined, ''),
+  getHealth: () => request<{ status: string; database: string; data_mode: string }>('/health', undefined, API_URL),
 
   getAreas: () => request<{ areas: AOI[] }>('/areas').then((res) => res.areas),
 

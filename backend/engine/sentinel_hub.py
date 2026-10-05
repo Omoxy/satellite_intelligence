@@ -35,7 +35,7 @@ TOKEN_URL = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/
 PROCESS_API_URL = "https://sh.dataspace.copernicus.eu/api/v1/process"
 
 # Directory where fetched GeoTIFFs are cached
-RASTER_DIR = Path(config.DATA_DIR) / "rasters"
+RASTER_DIR = Path(config.RASTER_CACHE_DIR)
 RASTER_DIR.mkdir(parents=True, exist_ok=True)
 
 # Sentinel-2 L2A evalscript — returns 5 bands as float32 reflectance [0, 1]

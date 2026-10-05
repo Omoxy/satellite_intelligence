@@ -5,3 +5,18 @@ publish = "dist"
 
 [build.environment]
 SECRETS_SCAN_OMIT_KEYS = "VITE_CARTO_API_KEY"
+
+[functions]
+directory = "netlify/functions"
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/backend-proxy/api/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/health"
+to = "/.netlify/functions/backend-proxy/health"
+status = 200
+force = true

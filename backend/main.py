@@ -24,6 +24,7 @@ from engine import sentinel_hub
 from routers.analysis import router as analysis_router
 from routers.areas import router as areas_router, seed_predefined_areas_if_needed
 from routers.location import router as location_router
+from security import RequestSizeLimitMiddleware, authorize_write, enforce_rate_limit
 
 # Logging configuration
 logging.basicConfig(
@@ -36,6 +37,8 @@ logger = logging.getLogger("satellite_intelligence")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context manager for startup and shutdown procedures."""
+    if config.ENVIRONMENT == "production" and len(config.API_ACCESS_KEY) < 32:
+        raise RuntimeError("Production requires an API_ACCESS_KEY of at least 32 characters.")
     logger.info("Starting Satellite Intelligence Explorer API...")
     logger.info("Data Mode: %s", config.DATA_MODE)
     # Step 1: Initialise database schema
@@ -56,6 +59,7 @@ app = FastAPI(
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json",
 )
+app.add_middleware(RequestSizeLimitMiddleware)
 
 # Explicit CORS Configuration
 app.add_middleware(
@@ -72,7 +76,11 @@ app.add_middleware(
 @app.middleware("http")
 async def security_and_logging_middleware(request: Request, call_next):
     start_time = time.time()
-    response = await call_next(request)
+    response = enforce_rate_limit(request)
+    if response is None:
+        response = authorize_write(request)
+    if response is None:
+        response = await call_next(request)
     duration_ms = (time.time() - start_time) * 1000
 
     # Log request summary without secrets or user PII

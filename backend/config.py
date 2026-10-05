@@ -20,9 +20,14 @@ HOST: str = os.getenv("HOST", "0.0.0.0")
 PORT: int = int(os.getenv("PORT", "8000"))
 CORS_ORIGINS: list[str] = [
     origin.strip()
-    for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,https://satelliteintelligence.netlify.app",
+    ).split(",")
     if origin.strip()
 ]
+ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development").lower()
+API_ACCESS_KEY: str = os.getenv("API_ACCESS_KEY", "")
 
 # --- Database ---
 DATABASE_PATH: str = os.getenv("DATABASE_PATH", str(DATA_DIR / "satellite_intelligence.db"))
@@ -42,6 +47,9 @@ LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
 RATE_LIMIT_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_PER_MINUTE", "60"))
 MAX_AOI_AREA_SQ_KM: float = float(os.getenv("MAX_AOI_AREA_SQ_KM", "10000"))
 MAX_REQUEST_SIZE_MB: int = int(os.getenv("MAX_REQUEST_SIZE_MB", "10"))
+
+# Generated rasters and live-data cache can be placed on a persistent disk.
+RASTER_CACHE_DIR: Path = Path(os.getenv("RASTER_CACHE_DIR", str(DATA_DIR / "rasters")))
 
 # Minimum AOI area to prevent degenerate geometries (square meters)
 MIN_AOI_AREA_SQ_M: float = 1000.0

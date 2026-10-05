@@ -270,6 +270,8 @@ python main.py
 ```
 *The FastAPI backend will initialise the SQLite database, seed the 5 Kenyan study areas, and listen on `http://localhost:8000` (API documentation available at `http://localhost:8000/api/docs`).*
 
+For Render deployment and Netlify's server-side API proxy configuration, see [docs/deployment.md](docs/deployment.md).
+
 ### Step 4: Run Frontend GIS Client (in a separate terminal)
 ```bash
 cd frontend

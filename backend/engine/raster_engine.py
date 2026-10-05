@@ -35,7 +35,8 @@ from engine import sentinel_hub
 logger = logging.getLogger(__name__)
 
 RASTER_DIR = Path(config.DATA_DIR) / "rasters"
-RASTER_DIR.mkdir(parents=True, exist_ok=True)
+RASTER_CACHE_DIR = Path(config.RASTER_CACHE_DIR)
+RASTER_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 # Standard band index mapping (1-based in Rasterio)
 # Band 1: Blue (B2, ~490 nm)
@@ -82,16 +83,14 @@ def find_matching_raster(geom_geojson: dict, date_str: str) -> Optional[Path]:
     Curated study-area rasters should always outrank synthetic or live-generated fallbacks
     when both cover the same location, because the latter are only backup inputs for missing data.
     """
-    if not RASTER_DIR.exists():
-        return None
-
     geom = shape(geom_geojson)
     geom_box = box(*geom.bounds)
 
     best_match: Optional[Path] = None
     best_overlap_area: float = 0.0
 
-    all_tifs = sorted(RASTER_DIR.glob("*.tif"))
+    raster_directories = {RASTER_DIR, RASTER_CACHE_DIR}
+    all_tifs = sorted({path for directory in raster_directories for path in directory.glob("*.tif")})
     date_matched_tifs = [p for p in all_tifs if date_str in p.name]
     preferred_tifs = [p for p in date_matched_tifs if not _is_generated_raster(p)]
     fallback_tifs = [p for p in date_matched_tifs if _is_generated_raster(p)]
@@ -123,7 +122,7 @@ def ensure_geotiff_for_aoi(geom_geojson: dict, date_str: str) -> Path:
     """Ensure a genuine GeoTIFF raster exists covering this AOI.
 
     When DATA_MODE=live: attempts a real Sentinel Hub Process API fetch first.
-    On success the live GeoTIFF (already saved to RASTER_DIR) is returned.
+    On success the live GeoTIFF (already saved to RASTER_CACHE_DIR) is returned.
     On failure (network error, auth failure, no coverage) falls back to the
     deterministic GeoTIFF pipeline so the analysis always completes.
 
@@ -211,7 +210,7 @@ def ensure_geotiff_for_aoi(geom_geojson: dict, date_str: str) -> Path:
     swir = np.clip(swir + noise, 0.005, 0.95)
 
     filename = f"custom_aoi_{abs(seed)}_{date_str}.tif"
-    out_path = RASTER_DIR / filename
+    out_path = RASTER_CACHE_DIR / filename
     transform = from_bounds(r_west, r_south, r_east, r_north, width, height)
 
     profile = {
